@@ -29,14 +29,32 @@ class Node(object):
 class LinkedList(object):
   init = None
   tail = None
+  aux = None
   def __init__(self, data):
     self.init = Node(data)
     self.tail = self.init
+
+  def checkNode(self, node, data):
+    if data == node.getData():
+      return node.getNext()
+    else:
+      self.aux = node
+    return self.checkNode(node.getNext(), data)
 
   def add(self, data):
     new_node = Node(data)
     self.tail.setNext(new_node)
     self.tail = new_node
+
+  # mode -> 'first' (default), 'last', 'all', 'index'
+  def remove(self, data, mode = 'first'):
+    if mode == 'first':
+      self.aux = None
+      node = self.checkNode(self.init, data)
+      if self.aux != None:
+        self.aux.setNext(node)
+      else:
+        self.init = node
 
   def getDataNode(self, node):
     data = f"{node.getData()}"
